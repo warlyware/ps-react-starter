@@ -3,21 +3,42 @@ import './App.css';
 
 const Card = (props) => {
   return(
-    <div>
-      <img src="//placehold.it/75" />
-      <div>
-        <div>Name here...</div>
-        <div>Company here...</div>
+    <div style={{margin: '1em'}}>
+      <img width="75" src={props.avatar_url} />
+      <div style={{display: 'inline-block', marginLeft: 10}}>
+        <div style={{fontSize: '1.25em', fontWeight: 'bold'}}>{props.name}</div>
+        <div>{props.company}</div>
       </div>
     </div>
   )
+}
+
+let data = [
+  {
+    name: "Dan Ward",
+    avatar_url: "https://avatars0.githubusercontent.com/u/11333794?v=4",
+    company: "Null Co",
+  },
+  {
+    name: "Trey Huffine",
+    avatar_url: "https://avatars3.githubusercontent.com/u/11709986?v=4",
+    company: "Postmates",
+  }
+]
+
+const CardList = (props) => {
+  return(
+    <div>
+      {props.cards.map(card => <Card {...card} />)}
+    </div>
+  );
 }
 
 class App extends Component {
 
   render() {
     return (
-      <Card />
+      <CardList cards={data} />
     );
   }
 }

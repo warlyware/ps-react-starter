@@ -4,13 +4,14 @@ import './App.css';
 class Button extends Component {
 
   handleClick = () => {
-
+    this.props.handleClick(this.props.incrementValue);
   }
 
   render() {
     return(
-      <button onClick={this.props.handleClick}>
-        +1
+      <button
+      onClick={this.handleClick}>
+        +{this.props.incrementValue}
       </button>
     );
   }
@@ -28,16 +29,19 @@ class App extends Component {
     this.state = { counter: 0 };
   }
 
-  incrementCounter = () => {
+  incrementCounter = (incrementValue) => {
     this.setState((prevState) => ({
-      counter: prevState.counter + 1
+      counter: prevState.counter + incrementValue
     }));
   }
 
   render() {
     return (
       <div>
-        <Button handleClick={this.incrementCounter} />
+        <Button incrementValue={1} handleClick={this.incrementCounter} />
+        <Button incrementValue={5} handleClick={this.incrementCounter} />
+        <Button incrementValue={10} handleClick={this.incrementCounter} />
+        <Button incrementValue={100} handleClick={this.incrementCounter} />
         <Result counter={this.state.counter} />
       </div>
     );

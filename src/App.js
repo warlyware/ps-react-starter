@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import './App.css';
 
@@ -32,7 +33,11 @@ class Form extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log('handle event', this.userNameInput.value);
+    console.log('handle event', this.state.userName);
+    axios.get(`https://api.github.com/users/${this.state.userName}`)
+      .then(response => {
+        console.log(response);
+      })
   }
 
   render() {
@@ -68,10 +73,14 @@ class App extends Component {
     };
   }
 
+  addNewCard = (cardInfo) => {
+    console.log(cardInfo);
+  }
+
   render() {
     return (
       <div>
-        <Form />
+        <Form onSubmit={this.addNewCard} />
         <CardList cards={this.state.cards} />
       </div>
     );

@@ -34,11 +34,25 @@ const CardList = (props) => {
   );
 }
 
+class Form extends Component {
+  render() {
+    return(
+      <form>
+        <input type="text" placeholder="Github username" />
+        <button type="submit">Add card</button>
+      </form>
+    )
+  }
+}
+
 class App extends Component {
 
   render() {
     return (
-      <CardList cards={data} />
+      <div>
+        <Form />
+        <CardList cards={data} />
+      </div>
     );
   }
 }

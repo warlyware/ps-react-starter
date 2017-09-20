@@ -13,19 +13,6 @@ const Card = (props) => {
   )
 }
 
-let data = [
-  {
-    name: "Dan Ward",
-    avatar_url: "https://avatars0.githubusercontent.com/u/11333794?v=4",
-    company: "Null Co",
-  },
-  {
-    name: "Trey Huffine",
-    avatar_url: "https://avatars3.githubusercontent.com/u/11709986?v=4",
-    company: "Postmates",
-  }
-]
-
 const CardList = (props) => {
   return(
     <div>
@@ -35,10 +22,18 @@ const CardList = (props) => {
 }
 
 class Form extends Component {
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('handle event', this.userNameInput.value);
+  }
+
   render() {
     return(
-      <form>
-        <input type="text" placeholder="Github username" />
+      <form onSubmit={this.handleSubmit}>
+        <input type="text"
+        ref={(input) => this.userNameInput = input}
+        placeholder="Github username" required />
         <button type="submit">Add card</button>
       </form>
     )
@@ -47,11 +42,29 @@ class Form extends Component {
 
 class App extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      cards: [
+        {
+          name: "Dan Ward",
+          avatar_url: "https://avatars0.githubusercontent.com/u/11333794?v=4",
+          company: "Null Co",
+        },
+        {
+          name: "Trey Huffine",
+          avatar_url: "https://avatars3.githubusercontent.com/u/11709986?v=4",
+          company: "Postmates",
+        }
+      ]
+    };
+  }
+
   render() {
     return (
       <div>
         <Form />
-        <CardList cards={data} />
+        <CardList cards={this.state.cards} />
       </div>
     );
   }

@@ -1,5 +1,34 @@
 import React, { Component } from 'react';
+import {Icon} from 'react-fa';
 import './App.css';
+
+const Stars = (props) => {
+  return(
+    <div>
+      <i className="fa fa-star"></i>
+      <i className="fa fa-star"></i>
+      <i className="fa fa-star"></i>
+      <i className="fa fa-star"></i>
+      <i className="fa fa-star"></i>
+    </div>
+  )
+}
+
+const Button = (props) => {
+  return(
+    <div>
+      <button>=</button>
+    </div>
+  )
+}
+
+const Answer = (props) => {
+  return(
+    <div>
+      ...
+    </div>
+  )
+}
 
 class Game extends Component {
 
@@ -22,7 +51,9 @@ class App extends Component {
     return (
       <div>
         <Game />
-        <Game />
+        <Stars />
+        <Button />
+        <Answer />
       </div>
     );
   }

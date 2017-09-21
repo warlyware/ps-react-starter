@@ -17,7 +17,7 @@ const Card = (props) => {
 const CardList = (props) => {
   return(
     <div>
-      {props.cards.map(card => <Card {...card} />)}
+      {props.cards.map(card => <Card key={card.id} {...card} />)}
     </div>
   );
 }
@@ -36,7 +36,8 @@ class Form extends Component {
     console.log('handle event', this.state.userName);
     axios.get(`https://api.github.com/users/${this.state.userName}`)
       .then(response => {
-        console.log(response);
+        this.props.onSubmit(response.data);
+        this.setState({ userName: '' })
       })
   }
 
@@ -58,23 +59,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      cards: [
-        {
-          name: "Dan Ward",
-          avatar_url: "https://avatars0.githubusercontent.com/u/11333794?v=4",
-          company: "Null Co",
-        },
-        {
-          name: "Trey Huffine",
-          avatar_url: "https://avatars3.githubusercontent.com/u/11709986?v=4",
-          company: "Postmates",
-        }
-      ]
+      cards: []
     };
   }
 
   addNewCard = (cardInfo) => {
-    console.log(cardInfo);
+    this.setState(prevState => ({
+      cards: prevState.cards.concat(cardInfo)
+    }));
   }
 
   render() {

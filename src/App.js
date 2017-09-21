@@ -33,7 +33,6 @@ class Form extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log('handle event', this.state.userName);
     axios.get(`https://api.github.com/users/${this.state.userName}`)
       .then(response => {
         this.props.onSubmit(response.data);

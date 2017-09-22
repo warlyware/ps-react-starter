@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Icon} from 'react-fa';
+import 'react-fa';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
@@ -30,17 +30,25 @@ const Button = (props) => {
 const Answer = (props) => {
   return(
     <div className="col-xs-5">
-      ...
+      {props.selectedNumbers.map((number, i) =>
+        <span key={i}>{number}</span>
+      )}
     </div>
   );
 }
 
 const Numbers = (props) => {
 
+  const numberClassName = (number) => {
+    if (props.selectedNumbers.indexOf(number) >= 0) {
+      return 'selected';
+    }
+  }
+
   return(
     <div className="well text-center">
       {Numbers.list.map((number, i) =>
-        <span key={i}>{number}</span>
+        <span key={i} className={numberClassName(number)}>{number}</span>
       )}
     </div>
   );
@@ -52,6 +60,9 @@ class Game extends Component {
 
   constructor() {
     super();
+    this.state = {
+      selectedNumbers: []
+    };
   }
 
   render() {
@@ -62,9 +73,9 @@ class Game extends Component {
         <div className="row well">
           <Stars />
           <Button />
-          <Answer />
+          <Answer selectedNumbers={this.state.selectedNumbers} />
         </div>
-        <Numbers />
+        <Numbers selectedNumbers={this.state.selectedNumbers} />
       </div>
     );
   }

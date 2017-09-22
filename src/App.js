@@ -19,9 +19,36 @@ const Stars = (props) => {
 }
 
 const Button = (props) => {
+
+  let button;
+
+  switch(props.answerIsCorrect) {
+    case true:
+      button =
+        <button className="btn btn-success">
+          <i className="fa fa-check" />
+        </button>
+      break;
+    case false:
+      button =
+        <button className="btn btn-danger">
+          <i className="fa fa-times" />
+        </button>
+      break;
+    default:
+      button =
+        <button className="btn"
+        onClick={props.checkAnswer}
+        disabled={props.selectedNumbers.length === 0}>
+          =
+        </button>
+      break;
+  }
+
+
   return(
     <div className="col-xs-2">
-      <button className="btn" disabled={props.selectedNumbers.length === 0}>=</button>
+      {button}
     </div>
   )
 }
@@ -65,6 +92,7 @@ class Game extends Component {
     this.state = {
       selectedNumbers: [],
       randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+      answerIsCorrect: null
     };
   }
 
@@ -80,7 +108,14 @@ class Game extends Component {
   unselectNumber = (clickedNumber) => {
     this.setState(prevState => ({
       selectedNumbers: prevState.selectedNumbers.filter(number => number !== clickedNumber)
-    }))
+    }));
+  }
+
+  checkAnswer = () => {
+    this.setState(prevState => ({
+      answerIsCorrect: prevState.randomNumberOfStars ===
+        prevState.selectedNumbers.reduce((acc, n) => acc + n, 0)
+    }));
   }
 
   render() {
@@ -90,9 +125,11 @@ class Game extends Component {
         <hr />
         <div className="row well">
           <Stars numberOfStars={this.state.randomNumberOfStars} />
-          <Button selectedNumbers={this.state.selectedNumbers} />
+          <Button selectedNumbers={this.state.selectedNumbers}
+          checkAnswer={this.checkAnswer}
+          answerIsCorrect={this.state.answerIsCorrect} />
           <Answer selectedNumbers={this.state.selectedNumbers}
-          unselectNumber={this.unselectNumber}  />
+          unselectNumber={this.unselectNumber} />
         </div>
         <Numbers selectedNumbers={this.state.selectedNumbers}
         selectNumber={this.selectNumber} />

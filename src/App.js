@@ -4,11 +4,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 const Stars = (props) => {
-  const numberOfStars = 1 + Math.floor(Math.random() * 9);
 
   let stars = [];
 
-  for (let i = 0; i < numberOfStars; i++) {
+  for (let i = 0; i < props.numberOfStars; i++) {
     stars.push(<i key={i} className="fa fa-star"></i>);
   }
 
@@ -48,7 +47,9 @@ const Numbers = (props) => {
   return(
     <div className="well text-center">
       {Numbers.list.map((number, i) =>
-        <span key={i} className={numberClassName(number)}>{number}</span>
+        <span key={i}
+        className={numberClassName(number)}
+        onClick={() => props.selectNumber(number)}>{number}</span>
       )}
     </div>
   );
@@ -61,8 +62,18 @@ class Game extends Component {
   constructor() {
     super();
     this.state = {
-      selectedNumbers: []
+      selectedNumbers: [],
+      randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
     };
+  }
+
+  selectNumber = (clickedNumber) => {
+    if (this.state.selectedNumbers.indexOf(clickedNumber) >=0 ) {
+      return;
+    }
+    this.setState(prevState => ({
+      selectedNumbers: prevState.selectedNumbers.concat(clickedNumber)
+    }));
   }
 
   render() {
@@ -71,11 +82,12 @@ class Game extends Component {
         <h3>Play Nine</h3>
         <hr />
         <div className="row well">
-          <Stars />
+          <Stars numberOfStars={this.state.randomNumberOfStars} />
           <Button />
           <Answer selectedNumbers={this.state.selectedNumbers} />
         </div>
-        <Numbers selectedNumbers={this.state.selectedNumbers} />
+        <Numbers selectedNumbers={this.state.selectedNumbers}
+        selectNumber={this.selectNumber} />
       </div>
     );
   }

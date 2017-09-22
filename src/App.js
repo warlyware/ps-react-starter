@@ -28,7 +28,18 @@ const Answer = (props) => {
     <div className="col-xs-5">
       ...
     </div>
-  )
+  );
+}
+
+const Numbers = (props) => {
+  return(
+    <div className="well text-center">
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
+      ...
+    </div>
+  );
 }
 
 class Game extends Component {
@@ -42,11 +53,12 @@ class Game extends Component {
       <div className="container">
         <h3>Play Nine</h3>
         <hr />
-        <div className="row">
+        <div className="row well">
           <Stars />
           <Button />
           <Answer />
         </div>
+        <Numbers />
       </div>
     );
   }

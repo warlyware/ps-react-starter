@@ -52,8 +52,10 @@ const Button = (props) => {
       {button}
       <br /><br />
       <button className="btn btn-warning btn-sm"
-      onClick={props.redraw}>
-        <i className="fa fa-refresh" />
+      onClick={props.redraw}
+      disabled={props.redraws === 0}>
+        <i className="fa fa-refresh" /> &nbsp;
+       {props.redraws}
       </button>
     </div>
   )
@@ -96,13 +98,16 @@ Numbers.list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 class Game extends Component {
 
+  static randomNumber = () => 1 + Math.floor(Math.random() * 9);
+
   constructor() {
     super();
     this.state = {
       usedNumbers: [],
       selectedNumbers: [],
-      randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
-      answerIsCorrect: null
+      randomNumberOfStars: Game.randomNumber(),
+      answerIsCorrect: null,
+      redraws: 5
     };
   }
 
@@ -135,16 +140,20 @@ class Game extends Component {
       usedNumbers: prevState.usedNumbers.concat(prevState.selectedNumbers),
       selectedNumbers: [],
       answerIsCorrect: null,
-      randomNumberOfStars: 1 + Math.floor(Math.random() * 9)
+      randomNumberOfStars: Game.randomNumber()
     }));
   }
 
   redraw = () => {
-    this.setState({
-      randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+    if (this.state.redraws === 0) {
+      return;
+    }
+    this.setState(prevState => ({
+      randomNumberOfStars: Game.randomNumber(),
       answerIsCorrect: null,
-      selectedNumbers: []
-    });
+      selectedNumbers: [],
+      redraws: prevState.redraws - 1
+    }));
   }
 
   render() {
@@ -158,7 +167,8 @@ class Game extends Component {
           checkAnswer={this.checkAnswer}
           answerIsCorrect={this.state.answerIsCorrect}
           acceptAnswer={this.acceptAnswer}
-          redraw={this.redraw} />
+          redraw={this.redraw}
+          redraws={this.state.redraws} />
           <Answer selectedNumbers={this.state.selectedNumbers}
           unselectNumber={this.unselectNumber} />
         </div>

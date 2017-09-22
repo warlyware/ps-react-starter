@@ -18,3 +18,14 @@ span {
   border-radius: 50%;
   cursor: pointer;
 }
+
+.selected {
+  background-color: #eee;
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+.used {
+  background-color: #aaddaa;
+  color: #99bb99;
+}
